@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{AADE870D-B8B5-44BA-AE88-A3AC424116BC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>beagleradio</RootNamespace>
+    <AssemblyName>beagle-radio</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="gdk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="glib-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="glade-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="pango-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="atk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Mono.Posix" />
+    <Reference Include="Mono.Cairo" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\unknown.png" />
+    <EmbeddedResource Include="Properties\clock.png" />
+    <EmbeddedResource Include="Properties\intercom.png" />
+    <EmbeddedResource Include="Properties\radio.png" />
+    <EmbeddedResource Include="Properties\wifi-0.png" />
+    <EmbeddedResource Include="Properties\wifi-100.png" />
+    <EmbeddedResource Include="Properties\wifi-50.png" />
+    <EmbeddedResource Include="Properties\wifi-80.png" />
+    <EmbeddedResource Include="Properties\wifi-off.png" />
+    <EmbeddedResource Include="Properties\wifi-search1.png" />
+    <EmbeddedResource Include="Properties\wifi-search2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="gtk-gui\MainWindow.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\weather.png" />
+    <Compile Include="RadioPlayer.cs" />
+    <Compile Include="GestureDetector.cs" />
+    <Compile Include="StationInfo.cs" />
+    <Compile Include="WirelessWrapper.cs" />
+    <Compile Include="WirelessInfo.cs" />
+    <Compile Include="IpAddressWrapper.cs" />
+    <Compile Include="Framework.cs" />
+    <Compile Include="FindArtwork.cs" />
+    <Compile Include="SpeechRecognition.cs" />
+    <Compile Include="EncryptionEnumeration.cs" />
+    <Compile Include="KeyboardWidget.cs" />
+    <Compile Include="gtk-gui\beagleradio.KeyboardWidget.cs" />
+    <Compile Include="TimeFrame.cs" />
+    <Compile Include="AlarmList.cs" />
+    <Compile Include="AlarmItem.cs" />
+    <Compile Include="EventItem.cs" />
+    <Compile Include="EventList.cs" />
+    <Compile Include="ProcessAction.cs" />
+    <Compile Include="Evaluator.cs" />
+    <Compile Include="WeatherService.cs" />
+    <Compile Include="SoundPlayer.cs" />
+    <Compile Include="TTSToOgg.cs" />
+    <Compile Include="TTSRecordings.cs" />
+    <Compile Include="AnalogClock.cs" />
+    <Compile Include="gtk-gui\beagleradio.AnalogClock.cs" />
+    <Compile Include="Volume.cs" />
+    <Compile Include="gtk-gui\beagleradio.Volume.cs" />
+    <Compile Include="VolumeService.cs" />
+    <Compile Include="SelectAccessPoint.cs" />
+    <Compile Include="gtk-gui\beagleradio.SelectAccessPoint.cs" />
+    <Compile Include="SelectUserPass.cs" />
+    <Compile Include="gtk-gui\beagleradio.SelectUserPass.cs" />
+    <Compile Include="TimedImageItem.cs" />
+    <Compile Include="Intercom.cs" />
+    <Compile Include="gtk-gui\beagleradio.Intercom.cs" />
+    <Compile Include="TimedImage.cs" />
+    <Compile Include="gtk-gui\beagleradio.TimedImage.cs" />
+    <Compile Include="NetworkWorker.cs" />
+    <Compile Include="WeatherView.cs" />
+    <Compile Include="gtk-gui\beagleradio.WeatherView.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

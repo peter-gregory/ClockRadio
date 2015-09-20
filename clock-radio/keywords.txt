@@ -1,0 +1,7 @@
+what time is it /1.0/
+whats happening /1.0/
+weather report /1.0/
+good night /1.0/
+good morning /1.0/
+go to sleep /1.0/
+wake up /1.0/

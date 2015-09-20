@@ -1,0 +1,39 @@
+# Alarm name
+#name: required
+#on_frame:
+#on_start_time: mm/dd/yyyy hh:mm
+#on_stop_time: mm/dd/yyyy hh:mm
+#on_recurrence: None,Daily,Weekly,Monthly,Yearly 
+#on_recurrence_week: None,First,Second,Third,Forth,Fifth,Last
+#on_weekdays: monday tuesday wednesday thursday friday saturday sunday weekdays weekends
+#on_month: 1 to 12
+#on_day: 1 to 31
+#on_action: script
+#off_action: script
+#off_frame:
+#off_start_time: mm/dd/yyyy hh:mm
+#off_stop_time: mm/dd/yyyy hh:mm
+#off_recurrence: None,Daily,Weekly,Monthly,Yearly
+#off_recurrence_week: None,First,Second,Third,Forth,Fifth,Last
+#off_weekdays: monday tuesday wednesday thursday friday saturday sunday weekdays weekends
+#off_month: 1 to 12
+#off_day: 1 to 31
+
+
+name: test alarm
+on_action: setvolume(80)
+on_action: showtime()
+on_action: speak("Good " + period() + ". Today is " + date() + ".  The current time is " + time() + ".")
+on_action: showweather()
+on_action: speak(weather())
+on_action: showtime()
+on_action: events()
+on_action: showradio()
+#on_action: setvolume(50)
+on_action: playradio("WRLT FM")
+off_action: playradio("")
+on_frame:
+on_start_time: 06:30
+on_stop_time:  07:00
+on_recurrence: Daily 
+on_weekdays: weekdays

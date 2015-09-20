@@ -1,0 +1,47 @@
+#name: required
+#action: script
+#on_frame:
+#on_start_date: mm/dd/yyyy hh:mm
+#on_stop_date: mm/dd/yyyy hh:mm
+#on_start_time: hh:mm
+#on_stop_time: hh:mm
+#on_recurrence: None,Daily,Weekly,Monthly,Yearly 
+#on_recurrence_week: None,First,Second,Third,Forth,Fifth,Last
+#on_weekdays: monday tuesday wednesday thursday friday saturday sunday weekdays weekends
+#on_month: 1 to 12
+#on_day: 1 to 31
+#off_frame:
+#off_start_date: mm/dd/yyyy hh:mm
+#off_stop_date: mm/dd/yyyy hh:mm
+#off_start_time: hh:mm
+#off_stop_time: hh:mm
+#off_recurrence: None,Daily,Weekly,Monthly,Yearly
+#off_recurrence_week: None,First,Second,Third,Forth,Fifth,Last
+#off_weekdays: monday tuesday wednesday thursday friday saturday sunday weekdays weekends
+#off_month: 1 to 12
+#off_day: 1 to 31
+
+
+name: Your birthday
+action: speak("Today is your birthday.  Happy " + ordinal(age("08/28/1964")) + " birthday")
+on_frame:
+on_recurrence: Yearly 
+on_month: 8
+on_day: 28
+
+name: trash day
+action: speak("Today is trash day.  Don't forget to put the trash on the curb this morning")
+on_frame:
+on_recurrence: Daily
+on_weekdays: Wednesday
+off_frame:
+off_recurrence: Weekly
+off_recurrence_week: Second
+off_weekdays: Wednesday
+
+name: recycle day
+action: speak("Today is recycle day.  Don't forget to put the trash and recycling on the curb this morning")
+on_frame:
+on_recurrence: Weekly
+on_recurrence_week: Second
+on_weekdays: Wednesday

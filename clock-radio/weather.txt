@@ -1,0 +1,7 @@
+# Change this to your city and state
+city: Nashville
+state: Tennessee
+# You will need to go to 
+# http://www.wunderground.com/weather/api
+# register and get your ID.  Put your ID here
+key: 

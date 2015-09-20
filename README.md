@@ -108,6 +108,9 @@ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 copy the clock-radio directory to the beagle bone in directory clock-radio
 
+Set the beagle bone to boot to the clock radio and turn off all lights.
+The power light will always be on, I have to cover it with electrical tape.
+
 #sudo apt-get install unclutter
 #sudo nano /etc/xdg/lxsession/LXDE/autostart
 @xset s off

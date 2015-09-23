@@ -76,7 +76,6 @@ namespace beagleradio
 			this.entryPassword = new global::Gtk.Entry ();
 			this.entryPassword.CanFocus = true;
 			this.entryPassword.Name = "entryPassword";
-			this.entryPassword.Text = global::Mono.Unix.Catalog.GetString ("Electric1");
 			this.entryPassword.IsEditable = true;
 			this.entryPassword.InvisibleChar = '●';
 			this.table9.Add (this.entryPassword);
@@ -90,7 +89,6 @@ namespace beagleradio
 			this.entryUser = new global::Gtk.Entry ();
 			this.entryUser.CanFocus = true;
 			this.entryUser.Name = "entryUser";
-			this.entryUser.Text = global::Mono.Unix.Catalog.GetString ("pgregory");
 			this.entryUser.IsEditable = true;
 			this.entryUser.InvisibleChar = '●';
 			this.table9.Add (this.entryUser);

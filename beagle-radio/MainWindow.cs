@@ -137,6 +137,7 @@ public partial class MainWindow: Gtk.Window {
 		volumeService = new VolumeService();
 
 		stations = new List<StationInfo>();
+		stations.Add(null);
 		LoadStations();
 
 		ttsRecordings = new TTSRecordings();
@@ -157,14 +158,14 @@ public partial class MainWindow: Gtk.Window {
 
 		analogclock.TimeChanged += Analogclock_TimeChanged;
 
+		intercomView.Start();
+		timedimage.Start();
+
 		timer = new Timer(new TimerCallback(timerTick));
 		timer.Change(250, 250);
 
 		background = new Timer(new TimerCallback(backgroundTick));
 		background.Change(2000, 2000);
-
-		intercomView.Start();
-		timedimage.Start();
 	}
 
 	void Analogclock_TimeChanged (object sender, DateTime e)
@@ -434,9 +435,30 @@ public partial class MainWindow: Gtk.Window {
 	}
 
 	private void LoadStations () {
-		stations.Add(null);
-		stations.Add(new StationInfo("http://provisioning.streamtheworld.com/pls/WRLTFMAAC.pls", "Radio Lightning 100", "WRLT FM", "Nashville, TN"));
-		stations.Add(new StationInfo("http://wpln.streamguys.org/wplnfm.mp3.m3u", "Nashville Public Radio", "WPLN FM", "Nashville, TN"));
+		try {
+
+			FileStream file = new FileStream("stations.txt", FileMode.Open);
+			StreamReader reader = new StreamReader(file);
+			string line = reader.ReadLine();
+			while (line != null) {
+				if (!line.Trim().StartsWith("#") && line.Length > 0) {
+					string[] parts = line.Split(',');
+					Console.WriteLine("Station: " + parts);
+					if (parts.Length == 5) {
+						stations.Add(new StationInfo(parts[0].Trim(), parts[1].Trim(), parts[2].Trim(), parts[3].Trim() + ", " + parts[4].Trim()));
+					}
+				}
+				line = reader.ReadLine();
+			}
+			reader.Close();
+			reader.Dispose();
+			file.Close();
+			file.Dispose();
+
+		} catch (Exception ex) {
+			Console.WriteLine(ex.Source);
+			Console.WriteLine(ex.StackTrace);
+		}
 	}
 
 	void Player_MetadataReceived (object sender, string e) {
@@ -576,8 +598,6 @@ public partial class MainWindow: Gtk.Window {
 							}
 						}
 					}
-
-					System.GC.Collect();
 				}
 
 
@@ -597,25 +617,29 @@ public partial class MainWindow: Gtk.Window {
 
 				Pixbuf image = null;
 				if (activeConnection == null) {
-					switch (wifiState) {
-						case 0:
-							image = images[WIFI_0];
-							break;
-						case 1:
-							image = images[WIFI_50];
-							break;
-						case 2:
-							image = images[WIFI_SEARCH1];
-							break;
-						case 3:
-							image = images[WIFI_SEARCH2];
-							break;
-						case 4:
-							image = images[WIFI_SEARCH1];
-							break;
-						case 5:
-							image = images[WIFI_50];
-							break;
+					if (ipAddress.Length == 0) {
+						switch (wifiState) {
+							case 0:
+								image = images[WIFI_0];
+								break;
+							case 1:
+								image = images[WIFI_50];
+								break;
+							case 2:
+								image = images[WIFI_SEARCH1];
+								break;
+							case 3:
+								image = images[WIFI_SEARCH2];
+								break;
+							case 4:
+								image = images[WIFI_SEARCH1];
+								break;
+							case 5:
+								image = images[WIFI_50];
+								break;
+						}
+					} else {
+						image = images[WIFI_0];
 					}
 				} else {
 					if (activeConnection.Signal > 90) {
@@ -648,7 +672,7 @@ public partial class MainWindow: Gtk.Window {
 				}
 
 			} catch (Exception ex) {
-				Console.WriteLine(ex.Source);
+				Console.WriteLine(ex);
 				Console.WriteLine(ex.StackTrace);
 			}
 		});

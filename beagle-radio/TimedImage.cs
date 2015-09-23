@@ -16,8 +16,6 @@ namespace beagleradio {
 		private DateTime lastImageTime;
 		private int imageIndex;
 		private int minutesPerImage;
-		private string activeImage;
-		private Timer nextImageTimer;
 
 		private bool isShutdown;
 		private Thread animationThread;
@@ -40,10 +38,6 @@ namespace beagleradio {
 		/// Start this instance.
 		/// </summary>
 		public void Start() {
-			if (nextImageTimer == null) {
-				nextImageTimer = new Timer(new TimerCallback(ChangeDisplayedImage));
-				nextImageTimer.Change(1000, 1000);
-			}
 			isShutdown = false;
 			animationThread = new Thread(new ThreadStart(ChangeImageThread));
 			animationThread.Start();
@@ -53,13 +47,7 @@ namespace beagleradio {
 		/// Close this instance.
 		/// </summary>
 		public void Close() {
-			
 			isShutdown = true;
-
-			if (nextImageTimer != null) {
-				nextImageTimer.Dispose();
-				nextImageTimer = null;
-			}
 		}
 
 		private List<TimedImageItem> FindActive(DateTime test) {
@@ -208,20 +196,6 @@ namespace beagleradio {
 			return result;
 		}
 
-		protected void ChangeDisplayedImage(object sender) {
-
-			Gtk.Application.Invoke(delegate {
-				try {
-					if (DateTime.Now > DateTime.Parse("08/01/2015")) {
-						activeImage = GetImage(DateTime.Now);
-					}
-				} catch (Exception ex) {
-					Console.WriteLine(ex.Source);
-					Console.WriteLine(ex.StackTrace);
-				}
-			});
-		}
-
 		protected void ChangeImageThread() {
 
 			PixbufAnimation animation = null;
@@ -229,15 +203,23 @@ namespace beagleradio {
 			int imageWidth = 0;
 			int imageHeight = 0;
 			bool isResizeNeeded = false;
+			bool isDisposeNeeded = false;
+			bool isOldDisposeNeeded = false;
+			string activeImage = "";
 			string currentImage = "";
 
 			while (!isShutdown) {
 
 				try {
 
+					if (DateTime.Now > DateTime.Parse("08/01/2015")) {
+						activeImage = GetImage(DateTime.Now);
+					}
+
 					DateTime start;
 					
 					if (currentImage != activeImage) {
+						Console.WriteLine("Image changed to " + activeItem);
 						currentImage = activeImage;
 
 						if (animationIter != null) {
@@ -245,8 +227,10 @@ namespace beagleradio {
 							animationIter = null;
 						}
 						if (animation != null) {
+							animation.Unref();
 							animation.Dispose();
 							animation = null;
+							System.GC.Collect();
 						}
 
 						Pixbuf firstImage = null;
@@ -254,11 +238,12 @@ namespace beagleradio {
 						if (currentImage != null && currentImage != "") {
 
 							animation = new PixbufAnimation(currentImage);
+							isDisposeNeeded = false;
 							if (animation.IsStaticImage) {
-								firstImage = animation.StaticImage.Copy();
+								firstImage = animation.StaticImage;
 							} else {
 								animationIter = animation.GetIter(IntPtr.Zero);
-								firstImage = animationIter.Pixbuf.Copy();
+								firstImage = animationIter.Pixbuf;
 							}
 
 							imageWidth = firstImage.Width;
@@ -277,8 +262,8 @@ namespace beagleradio {
 
 							if (isResizeNeeded) {
 								Pixbuf resized = firstImage.ScaleSimple(imageWidth, imageHeight, InterpType.Bilinear);
-								firstImage.Dispose();
 								firstImage = resized;
+								isDisposeNeeded = true;
 							}
 
 						}
@@ -288,9 +273,10 @@ namespace beagleradio {
 								Pixbuf oldImage = imageTimed.Pixbuf;
 								imageTimed.Pixbuf = firstImage;
 								imageTimed.QueueDraw();
-								if (oldImage != null) {
+								if (oldImage != null && isOldDisposeNeeded) {
 									oldImage.Dispose();
 								}
+								isOldDisposeNeeded = isDisposeNeeded;
 							} catch (Exception ex) {
 								Console.WriteLine(ex.Source);
 								Console.WriteLine(ex.StackTrace);
@@ -303,20 +289,22 @@ namespace beagleradio {
 						if (animationIter != null) {
 							animationIter.Advance(IntPtr.Zero);
 
-							Pixbuf pix = animationIter.Pixbuf.Copy();
+							isDisposeNeeded = false;
+							Pixbuf pix = animationIter.Pixbuf;
 							if (isResizeNeeded) {
 								Pixbuf resized = pix.ScaleSimple(imageWidth, imageHeight, InterpType.Bilinear);
-								pix.Dispose();
 								pix = resized;
+								isDisposeNeeded = true;
 							}
 
 							Gtk.Application.Invoke(delegate {
 								Pixbuf oldImage = imageTimed.Pixbuf;
 								imageTimed.Pixbuf = pix;
 								imageTimed.QueueDraw();
-								if (oldImage != null) {
+								if (oldImage != null && isOldDisposeNeeded) {
 									oldImage.Dispose();
 								}
+								isOldDisposeNeeded = isDisposeNeeded;
 							});
 						}
 					}
@@ -325,7 +313,7 @@ namespace beagleradio {
 						int delay = (int)start.AddMilliseconds(animationIter.DelayTime).Subtract(DateTime.Now).TotalMilliseconds;
 						if (delay > 0) Thread.Sleep(delay);
 					} else {
-						Thread.Sleep(100);
+						Thread.Sleep(250);
 					}
 				} catch (Exception ex) {
 					Console.WriteLine(ex.Source);

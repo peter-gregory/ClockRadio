@@ -14,6 +14,8 @@ namespace beagleradio {
 
 		public NetworkWorker() {
 			wireless = new WirelessWrapper();
+			IpAddress = "";
+			WiFi = null;
 		}
 
 		public void Start() {

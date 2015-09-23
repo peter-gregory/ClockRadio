@@ -294,6 +294,7 @@ public partial class MainWindow
 		this.table17.ColumnSpacing = ((uint)(6));
 		// Container child table17.Gtk.Table+TableChild
 		this.analogclock = new global::beagleradio.AnalogClock ();
+		this.analogclock.WidthRequest = 192;
 		this.analogclock.Events = ((global::Gdk.EventMask)(256));
 		this.analogclock.Name = "analogclock";
 		this.analogclock.CurrentTime = new global::System.DateTime (0);
@@ -302,19 +303,16 @@ public partial class MainWindow
 		this.analogclock.AutoUpdate = false;
 		this.table17.Add (this.analogclock);
 		global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table17 [this.analogclock]));
+		w13.XOptions = ((global::Gtk.AttachOptions)(4));
 		w13.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child table17.Gtk.Table+TableChild
 		this.timedimage = new global::beagleradio.TimedImage ();
-		this.timedimage.WidthRequest = 200;
-		this.timedimage.HeightRequest = 190;
 		this.timedimage.Events = ((global::Gdk.EventMask)(256));
 		this.timedimage.Name = "timedimage";
 		this.table17.Add (this.timedimage);
 		global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table17 [this.timedimage]));
 		w14.LeftAttach = ((uint)(1));
 		w14.RightAttach = ((uint)(2));
-		w14.XOptions = ((global::Gtk.AttachOptions)(4));
-		w14.YOptions = ((global::Gtk.AttachOptions)(4));
 		this.table11.Add (this.table17);
 		global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table11 [this.table17]));
 		w15.TopAttach = ((uint)(1));
